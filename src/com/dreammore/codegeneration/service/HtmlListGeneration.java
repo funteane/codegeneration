@@ -6,6 +6,10 @@ import com.dreammore.codegeneration.model.Comment;
 
 public class HtmlListGeneration extends AbstractGeneration {
 
+	public HtmlListGeneration(String filePath) {
+		super(filePath);
+	}
+
 	@Override
 	public StringBuffer generate(Class<?> clazz) {
 		Field[] fields = clazz.getDeclaredFields();
@@ -185,6 +189,11 @@ public class HtmlListGeneration extends AbstractGeneration {
         sb.append(getBlanks(0)).append("</html>").append(BR);
 
 		return sb;
+	}
+
+	@Override
+	protected String getOutputFileName(Class<?> clazz) {
+		return getFilePath().concat(firstLetterLower(clazz.getSimpleName())).concat("List.vm");
 	}
 
 }

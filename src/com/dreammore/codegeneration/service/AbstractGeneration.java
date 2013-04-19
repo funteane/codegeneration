@@ -1,6 +1,14 @@
 package com.dreammore.codegeneration.service;
 
+import com.dreammore.codegeneration.util.FileUtil;
+
 public abstract class AbstractGeneration implements Generation{
+	
+	private String filePath;
+	
+	public AbstractGeneration(String filePath){
+		this.filePath = filePath;
+	}
 	
 	protected static String BR = "\n";
 	
@@ -12,6 +20,8 @@ public abstract class AbstractGeneration implements Generation{
 		return field.substring(0, 1).toUpperCase().concat(field.substring(1));
 	}
 	
+	protected abstract String getOutputFileName(Class<?> clazz);
+	
 	protected String getBlanks(int number){
 		String blank = "";
 		for(int i = 0; i < number; i++){
@@ -20,5 +30,15 @@ public abstract class AbstractGeneration implements Generation{
 		
 		return blank;
 	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+	
+	@Override
+	public void write(Class<?> clazz) throws Exception {
+		FileUtil.writeToFile(generate(clazz), getOutputFileName(clazz));
+	}
+	
 
 }

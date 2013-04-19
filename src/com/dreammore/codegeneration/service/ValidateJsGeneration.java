@@ -7,6 +7,10 @@ import com.dreammore.codegeneration.model.Validate;
 
 public class ValidateJsGeneration extends AbstractGeneration {
 
+	public ValidateJsGeneration(String filePath) {
+		super(filePath);
+	}
+
 	@Override
 	public StringBuffer generate(Class<?> clazz) {
 		StringBuffer sb = new StringBuffer();
@@ -134,6 +138,11 @@ public class ValidateJsGeneration extends AbstractGeneration {
         sb.append(getBlanks(1)).append("});").append(BR);
         sb.append(getBlanks(0)).append("});").append(BR);
 		return sb;
+	}
+
+	@Override
+	protected String getOutputFileName(Class<?> clazz) {
+		return getFilePath().concat(firstLetterLower(clazz.getSimpleName())).concat(".js");
 	}
 
 }

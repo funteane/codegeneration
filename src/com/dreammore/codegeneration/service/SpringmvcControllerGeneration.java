@@ -6,6 +6,10 @@ import com.dreammore.codegeneration.model.Validate;
 
 public class SpringmvcControllerGeneration extends AbstractGeneration{
 
+	public SpringmvcControllerGeneration(String filePath) {
+		super(filePath);
+	}
+
 	@Override
 	public StringBuffer generate(Class<?> clazz) {
 		StringBuffer sb = new StringBuffer();
@@ -111,6 +115,11 @@ public class SpringmvcControllerGeneration extends AbstractGeneration{
 		
 		sb.append(getBlanks(0)).append("}");
 		return sb;
+	}
+
+	@Override
+	protected String getOutputFileName(Class<?> clazz) {
+		return getFilePath().concat(clazz.getSimpleName()).concat("Controller.java");
 	}
 
 }

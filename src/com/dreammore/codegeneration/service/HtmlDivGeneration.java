@@ -3,8 +3,13 @@ package com.dreammore.codegeneration.service;
 import java.lang.reflect.Field;
 
 import com.dreammore.codegeneration.model.Comment;
+import com.dreammore.codegeneration.util.FileUtil;
 
 public class HtmlDivGeneration extends AbstractGeneration {
+
+	public HtmlDivGeneration(String filePath) {
+		super(filePath);
+	}
 
 	@Override
 	public StringBuffer generate(Class<?> clazz) {
@@ -127,5 +132,11 @@ public class HtmlDivGeneration extends AbstractGeneration {
         sb.append(getBlanks(0)).append("</html>").append(BR);
 		return sb;
 	}
+
+	@Override
+	protected String getOutputFileName(Class<?> clazz) {
+		return getFilePath().concat(firstLetterLower(clazz.getSimpleName())).concat(".vm");
+	}
+
 
 }

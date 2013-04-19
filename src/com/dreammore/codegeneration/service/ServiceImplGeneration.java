@@ -6,6 +6,10 @@ import com.dreammore.codegeneration.model.Comment;
 
 public class ServiceImplGeneration extends AbstractGeneration {
 
+	public ServiceImplGeneration(String filePath) {
+		super(filePath);
+	}
+
 	@Override
 	public StringBuffer generate(Class<?> clazz) {
 			StringBuffer sb = new StringBuffer();
@@ -18,7 +22,7 @@ public class ServiceImplGeneration extends AbstractGeneration {
 			sb.append(BR);
 			sb.append(getBlanks(1)).append("@Override").append(BR);
 			sb.append(getBlanks(1)).append("public PageBean<").append(clazz.getSimpleName()).append("> getAll").append(clazz.getSimpleName());
-			sb.append(getBlanks(0)).append("s(PageBean<").append(clazz.getSimpleName()).append("> pageBean, ").append(clazz.getSimpleName());
+			sb.append(getBlanks(0)).append("s(PageBean<").append(clazz.getSimpleName()).append("> pageBean, ").append(clazz.getSimpleName()).append(" ");
 			sb.append(getBlanks(0)).append(firstLetterLower(clazz.getSimpleName())).append(", Long... ids) {").append(BR);
 			sb.append("").append(BR);
 			sb.append(getBlanks(2)).append("List<String> paramNames = new ArrayList<String>();").append(BR);
@@ -60,6 +64,11 @@ public class ServiceImplGeneration extends AbstractGeneration {
 			sb.append(getBlanks(1)).append("}");
 			
 			return sb;
+	}
+
+	@Override
+	protected String getOutputFileName(Class<?> clazz) {
+		return getFilePath().concat(clazz.getSimpleName()).concat("ServiceImpl.java");
 	}
 
 }
