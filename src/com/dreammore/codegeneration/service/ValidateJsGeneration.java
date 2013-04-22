@@ -56,19 +56,19 @@ public class ValidateJsGeneration extends AbstractGeneration {
 				}			
 				if (validate.doublenumber()) {
 					sb.append(getBlanks(4)).append("doublenumber: ").append(validate.doublenumber()).append(",").append(BR);
-					message.append(getBlanks(4)).append("doublenumber: ").append("请输入合法的正数").append(",").append(BR);
+					message.append(getBlanks(4)).append("doublenumber: ").append("\"请输入合法的正数\"").append(",").append(BR);
 				}
 				if (validate.integernumber()) {
 					sb.append(getBlanks(4)).append("integernumber: ").append(validate.integernumber()).append(",").append(BR);
-					message.append(getBlanks(4)).append("integernumber: ").append("请输入合法的正整数").append(",").append(BR);
+					message.append(getBlanks(4)).append("integernumber: ").append("\"请输入合法的正整数\"").append(",").append(BR);
 				}
 				if (validate.number()) {
 					sb.append(getBlanks(4)).append("number: ").append(validate.number()).append(",").append(BR);
-					message.append(getBlanks(4)).append("number: ").append("请输入合法的数字").append(",").append(BR);
+					message.append(getBlanks(4)).append("number: ").append("\"请输入合法的数字\"").append(",").append(BR);
 				}
 				if (validate.email()) {
 					sb.append(getBlanks(4)).append("emai: ").append(validate.email()).append(",").append(BR);
-					message.append(getBlanks(4)).append("emai: ").append("请输入正确格式的电子邮件").append(",").append(BR);
+					message.append(getBlanks(4)).append("emai: ").append("\"请输入正确格式的电子邮件\"").append(",").append(BR);
 				}
 				if (validate.range().length > 0 ) {
 					sb.append(getBlanks(4)).append("range: [").append(validate.range()[0]).append(",").append(validate.range()[1]).append("]").append(BR);
@@ -80,10 +80,13 @@ public class ValidateJsGeneration extends AbstractGeneration {
 				}
 				if (validate.unique()) {
 					sb.append(getBlanks(4)).append("remote: {").append(BR);
-					sb.append(getBlanks(5)).append("url: baseurl + \"").append("?d=\" + Math.random(),     //后台处理程序").append(BR);
+					sb.append(getBlanks(5)).append("url: baseurl + \"/").append(clazz.getSimpleName().toLowerCase()).append("/exist").append(firstLetterUpper(field.getName())).append(".do?d=\" + Math.random(),     //后台处理程序").append(BR);
 					sb.append(getBlanks(5)).append("type: \"post\", //数据发送方式").append(BR);
 	            	sb.append(getBlanks(5)).append("dataType: \"json\",           //接受数据格式").append(BR);  
-	            	sb.append(getBlanks(5)).append("data: { }").append(BR);
+	            	sb.append(getBlanks(5)).append("data: {").append(BR);
+	            	sb.append(getBlanks(6)).append(field.getName()).append(": function(){ return jQuery(\"#").append(field.getName()).append("\").val();}, ").append(BR);
+	            	sb.append(getBlanks(6)).append("id: function(){ return jQuery(\"#id\").val();}").append(BR);
+	            	sb.append(getBlanks(5)).append("}").append(BR);
 	            	sb.append(getBlanks(4)).append("},").append(BR);
 	            	message.append(getBlanks(4)).append("remote: {").append(BR);
 	            	message.append(getBlanks(5)).append("\"此值已经存在\"").append(BR);
@@ -114,7 +117,7 @@ public class ValidateJsGeneration extends AbstractGeneration {
 			message = message.deleteCharAt(message.length() - 1);
 			message.append(BR);
 		}
-		message.append(getBlanks(2)).append("},  ").append(BR);
+		//message.append(getBlanks(2)).append("},  ").append(BR);
 		
 		sb.append(getBlanks(2)).append("},  ").append(BR);
 		sb.append(getBlanks(2)).append("messages: {       //自定义验证消息").append(BR);

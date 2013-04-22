@@ -47,6 +47,9 @@ public class HtmlListGeneration extends AbstractGeneration {
 	    sb.append(getBlanks(2)).append("<![endif]-->").append(BR);
 	    sb.append(getBlanks(2)).append("<script type=\"text/javascript\">").append(BR);
 	    sb.append(getBlanks(3)).append("var baseurl = \"$baseurl\";").append(BR);
+	    sb.append(getBlanks(3)).append("var searchUrl = baseurl + \"/").append(clazz.getSimpleName().toLowerCase());
+      	sb.append(getBlanks(0)).append("/to").append(clazz.getSimpleName()).append("List.do\";").append(BR);
+	    sb.append(getBlanks(3)).append("var searchParameters = $searchParams;").append(BR);
 	    sb.append(getBlanks(2)).append("</script>").append(BR);
 	    sb.append(getBlanks(1)).append("</head>").append(BR);  	
 	    sb.append(BR);    	
@@ -73,14 +76,15 @@ public class HtmlListGeneration extends AbstractGeneration {
 	    sb.append(BR);
 	    sb.append(getBlanks(5)).append("<!-- 信息搜索开始 -->").append(BR);
 	    sb.append(getBlanks(5)).append("<div class=\"hero-unit\">").append(BR);
-      	sb.append(getBlanks(6)).append("<form class=\"form-search\" method=\"post\" action=\"$baseurl/ .do\">").append(BR);
+      	sb.append(getBlanks(6)).append("<form class=\"form-search\" method=\"post\" action=\"$baseurl/").append(clazz.getSimpleName().toLowerCase());
+      	sb.append("/to").append(clazz.getSimpleName()).append("List.do\">").append(BR);
 
       	sb.append(getBlanks(7)).append("<div class=\"row\">").append(BR);
       	int counter = 0;
       	for(int i = 0, length = fields.length; i < length; i++){
       		Field field = fields[i];
       		Comment comment = field.getAnnotation(Comment.class);
-      		if (comment.searchable()) {
+      		if (comment != null && comment.searchable()) {
       			counter++;
       			sb.append(getBlanks(8)).append("<div class=\"span2 right\">").append(BR);
       			sb.append(getBlanks(9)).append("<label class=\"control-label\" for=\"").append(field.getName()).append("\">").append(comment.value()).append("</label>").append(BR);
@@ -143,7 +147,9 @@ public class HtmlListGeneration extends AbstractGeneration {
 		sb.append(getBlanks(10)).append("<th style=\"width:3%; text-align:center\" >#</th>").append(BR);
 		for(Field field : fields){
 			Comment comment = field.getAnnotation(Comment.class);
-			sb.append(getBlanks(10)).append("<th style=\"width:10%; text-align:center\" >").append(comment.value()).append("</th>").append(BR);
+			if (comment != null) {
+				sb.append(getBlanks(10)).append("<th style=\"width:10%; text-align:center\" >").append(comment.value()).append("</th>").append(BR);
+			}
 		}
         sb.append(getBlanks(9)).append("</tr>").append(BR);
 	    sb.append(getBlanks(8)).append("</thead>").append(BR);

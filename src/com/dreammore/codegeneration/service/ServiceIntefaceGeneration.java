@@ -15,7 +15,7 @@ public class ServiceIntefaceGeneration extends AbstractGeneration{
 		sb.append(getBlanks(1)).append("public PageBean<").append(clazz.getSimpleName()).append("> getAll").append(clazz.getSimpleName());
 		sb.append(getBlanks(0)).append("s(PageBean<").append(clazz.getSimpleName()).append("> pageBean, ").append(clazz.getSimpleName()).append(" ");
 		sb.append(getBlanks(0)).append(firstLetterLower(clazz.getSimpleName())).append(", Long... ids ) ;").append(BR);
-		
+		sb.append(getBlanks(1)).append("}");
 		return sb;
 	}
 

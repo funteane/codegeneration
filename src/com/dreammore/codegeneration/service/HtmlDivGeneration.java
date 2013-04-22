@@ -49,8 +49,6 @@ public class HtmlDivGeneration extends AbstractGeneration {
 	    sb.append(getBlanks(2)).append("<![endif]-->").append(BR);
 	    sb.append(getBlanks(2)).append("<script type=\"text/javascript\">").append(BR);
 	    sb.append(getBlanks(3)).append("var baseurl = \"$baseurl\";").append(BR);
-	    sb.append(getBlanks(3)).append("var searchUrl = baseurl + \"/").append("").append(clazz.getSimpleName().toLowerCase()).append("/to").append(clazz.getSimpleName()).append("List.do\";").append(BR);
-	    sb.append(getBlanks(3)).append("var searchParameters = $searchParams;").append(BR);
 	    sb.append(getBlanks(2)).append("</script>").append(BR);
 	    sb.append(getBlanks(1)).append("</head>").append(BR);  	
 	    sb.append(BR);    	
@@ -78,27 +76,41 @@ public class HtmlDivGeneration extends AbstractGeneration {
 	    sb.append(getBlanks(5)).append("<!-- 表单开始 -->").append(BR);
 		
 		sb.append(getBlanks(5)).append("<div class=\"container\">").append(BR);
-		sb.append(getBlanks(6)).append("<form name=\"").append(firstLetterLower(clazz.getSimpleName()).concat("Form"));
+		sb.append(getBlanks(6)).append("<form name=\"").append(firstLetterLower(clazz.getSimpleName()).concat("Form\""));
 		sb.append(getBlanks(0)).append(" id=\"").append(firstLetterLower(clazz.getSimpleName()).concat("Form")).append("\" ");
-		sb.append(getBlanks(0)).append(" method=\"post\"").append(" action=\" \"").append(">").append(BR);
+		sb.append(getBlanks(0)).append(" method=\"post\"").append(" action=\"$baseurl/").append(clazz.getSimpleName().toLowerCase());
+		sb.append("/to").append(clazz.getSimpleName()).append("List.do\"").append(">").append(BR);
 		sb.append(getBlanks(7)).append("<div class=\"row\">").append(BR);
+		int counter = 0;
 		for(int i = 0, length = fields.length; i < length; i++){
 			Field field = fields[i];
 			Comment comment = field.getAnnotation(Comment.class);
-			sb.append(getBlanks(8)).append("<div class=\"span1 right\">").append(comment.value()).append("</div>").append(BR);
-			sb.append(getBlanks(8)).append("<div class=\"span2\">").append(BR);
-			sb.append(getBlanks(9)).append("<input name=\"").append(field.getName()).append("\" value=\"$!{");
-			sb.append(getBlanks(0)).append(firstLetterLower(clazz.getSimpleName())).append(".").append(field.getName()).append("}\" type=\"text\" class=\"width145\">").append(BR);
-			sb.append(getBlanks(8)).append("</div>").append(BR);
-			sb.append(getBlanks(8)).append("<div class=\"span3\"></div>").append(BR);
-			
-			if ((i + 1) % 2 == 0) {
-				sb.append(getBlanks(7)).append("</div>").append(BR);		
-				sb.append(getBlanks(7)).append("<div class=\"row\">").append(BR);
+			if (comment != null) {
+				
+				sb.append(getBlanks(8)).append("<div class=\"span1 right\">").append(comment.value()).append("</div>").append(BR);
+				sb.append(getBlanks(8)).append("<div class=\"span2\">").append(BR);
+				sb.append(getBlanks(9)).append("<input name=\"").append(field.getName()).append("\" value=\"$!{");
+				sb.append(getBlanks(0)).append(firstLetterLower(clazz.getSimpleName())).append(".").append(field.getName()).append("}\" type=\"text\" class=\"width145\">").append(BR);
+				sb.append(getBlanks(8)).append("</div>").append(BR);
+				sb.append(getBlanks(8)).append("<div class=\"span3\"></div>").append(BR);
+				
+				if ((counter + 1) % 2 == 0) {
+					sb.append(getBlanks(7)).append("</div>").append(BR);		
+					sb.append(getBlanks(7)).append("<div class=\"row\">").append(BR);
+				}
+				
+				counter ++;
+				
 			}
 		}
-		sb.append(getBlanks(7)).append(" </div").append(BR);
-		
+		sb.append(getBlanks(7)).append(" </div>").append(BR);
+		sb.append(getBlanks(7)).append("<div class=\"row center\">").append(BR);
+		sb.append(getBlanks(8)).append("<input type=\"hidden\" value=\"$!{").append(firstLetterLower(clazz.getSimpleName())).append(".id}\" name=\"id\">").append(BR);
+		sb.append(getBlanks(8)).append("<input type=\"button\" class=\"btn btn-info\" value=\"返回\" onclick=\"javascript:history.go(-1)\">").append(BR);
+		sb.append(getBlanks(8)).append("<input type=\"reset\" class=\"btn\" value=\"重置\">").append(BR); 
+	    sb.append(getBlanks(8)).append("<input type=\"submit\" class=\"btn btn-primary\" value=\"保存\">").append(BR);	
+	    sb.append(getBlanks(7)).append("</div>").append(BR);	
+ 		
 		sb.append(getBlanks(6)).append("<form>").append(BR);
 		sb.append(getBlanks(5)).append("</div>").append(BR);
 		
@@ -116,6 +128,7 @@ public class HtmlDivGeneration extends AbstractGeneration {
         sb.append(BR);      
         sb.append(getBlanks(2)).append("<!-- Le javascript   ================================================== -->").append(BR);
         sb.append(getBlanks(2)).append("<!-- Placed at the end of the document so the pages load faster -->").append(BR);
+        sb.append("<link  rel=\"stylesheet\" type=\"text/css\" href=\"$baseurl/jquery/validate/jquery.validate.css\" />");
         sb.append(getBlanks(2)).append("<script type=\"text/javascript\" src=\"$baseurl/jquery/jquery-1.9.1.js\"></script>").append(BR);
         sb.append(getBlanks(2)).append("<script type=\"text/javascript\" src=\"$baseurl/bootstrap/js/bootstrap.js\"></script>").append(BR);
         sb.append(getBlanks(2)).append("<script type=\"text/javascript\" src=\"$baseurl/bootstrap/js/bootstrap-ie.js\"></script>").append(BR);
